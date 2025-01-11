@@ -109,16 +109,16 @@ def perform_extraction(file_count, nametable, filetable, chunktable, end_chunk_t
         file_path = nametable[pathint:]
         path_end = file_path.find(b'\x00')
         file_path = nametable[pathint:pathint+path_end].decode("utf-8")
-        # Get the filename, same as we did above
+        # get the filename, same as we did above
         filename_str = nametable[filename:]
         filename_end = filename_str.find(b'\x00')
         filename_str = nametable[filename:filename+filename_end].decode("utf-8")
-        # Make dir if not already made
+        # make dir if not already made
         try:
             makedirs(path.join(SET_FILEPATH, file_path))
         except FileExistsError as e:
             pass
-        # Write file
+        # write file
         filename_str = path.join(SET_FILEPATH,file_path,filename_str)
         f = open(filename_str, 'wb+')
         f.write(file_bytes)
@@ -161,14 +161,14 @@ def main():
     file_count = bytearray_to_int(minifs_bytes[20:24])
     name_table_len = bytearray_to_int(minifs_bytes[28:32])
     '''      FORMAT
-    ==== Higher Memory ====
+    ==== Lower Memory ====
     Header      |
     Name Table  |
     File Table  |
     Chunk Table |
     LZMA Files  |
     ....        V
-    ====  Lower Memory  ====
+    ==== Higher Memory ====
     '''
     print("[+] File count: ", bytearray_to_int(minifs_bytes[20:24]))
     print("[+] Name table size: ", bytearray_to_int(minifs_bytes[28:32]))
