@@ -64,7 +64,6 @@ def get_chunk(position, chunktable, start_of_chunks, minifs_bytes):
     decomp_sz = bytearray_to_int(chunktable[chunk_position+8:chunk_position+12])
     # extract chunk from filebytes
     lzma_chunk = minifs_bytes[start_of_chunks + offset:start_of_chunks + offset + size]
-    #print("chunk position: ", start_of_chunks + offset, " of size ", start_of_chunks + offset + size)
     # perform decompression
     decomp_bytes = decompress_lzma(lzma_chunk)
     if (len(decomp_bytes) != decomp_sz):
@@ -102,7 +101,6 @@ def perform_extraction(file_count, nametable, filetable, chunktable, end_chunk_t
         chunk_num = bytearray_to_int(filetable[i+8:i+12])
         chunk_off = bytearray_to_int(filetable[i+12:i+16])
         filesz = bytearray_to_int(filetable[i+16:i+20])
-        #print("pathint: ", pathint, "filename: ", filename, "chunk_num: ", chunk_num, "chunk_off: ", chunk_off, "filesz: ", filesz)
         # get decompressed chunk
         chunk_bytes = get_chunk(chunk_num, chunktable, end_chunk_table, minifs_bytes)
         file_bytes = chunk_bytes[chunk_off:chunk_off+filesz] 
