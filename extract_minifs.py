@@ -182,8 +182,8 @@ def main():
     # and finally, chunk table
     # each entry is 20b for the filetable
     begin_chunk_table = name_table_len+0x20 + file_count*20
-    # 0x5d000080 - LZMA header, find the 1st one
-    end_chunk_table = minifs_bytes.find(b"\x5d\x00\x00\x80")
+    # 0x5d00008000ffffffff - LZMA header that the first one always uses, find the 1st one
+    end_chunk_table = minifs_bytes.find(b"\x5d\x00\x00\x80\x00\xff\xff\xff\xff")
     chunktable = minifs_bytes[begin_chunk_table:end_chunk_table]
     # perform extraction now
     perform_extraction(file_count, nametable, filetable, chunktable, end_chunk_table, minifs_bytes)
